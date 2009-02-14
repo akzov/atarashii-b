@@ -40,10 +40,6 @@ else
 //Check filetypes
   if (in_array($filetype, $allow_types)){
 //If filetype is allowed then display DEBUG file info
-  echo "Upload: " . $_FILES["file"]["name"] . "<br />";
-  echo "Type: " . $_FILES["file"]["type"] . "<br />";
-  echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
-  echo "Temp: " . $_FILES["file"]["tmp_name"] . "<br />";
   if (file_exists("uploads/" . $_FILES["file"]["name"]))
       {
       echo $_FILES["file"]["name"] . " already exists. ";
@@ -53,7 +49,6 @@ else
       //Sets variable $rename to random number with the same file extension as uploaded file
       $rename= time()+rand() . "." . findexts($_FILES["file"]["name"]);
       move_uploaded_file($_FILES["file"]["tmp_name"], "uploads/" . $rename);
-      echo "Stored in: " . "uploads/" . $rename;
       $uploaded="1";
       }
   }
@@ -91,7 +86,18 @@ else
 	</form>
 	</div>
 	<div id="image">
-		<?php if($uploaded=1){echo "<img src=uploads/".$rename.">";} ?>
+		<?php
+		if($uploaded==1){
+		$imagesize = getimagesize("uploads/".$rename);
+		echo "File: <a href=uploads/".$rename.">$rename</a>-(".number_format(($_FILES["file"]["size"] / 1024))." KB, ".$imagesize[0]."x".$imagesize[1].")<br />";
+//		echo "Upload: " . $_FILES["file"]["name"] . "<br />";
+//		echo "Type: " . $_FILES["file"]["type"] . "<br />";
+//		echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
+//		echo "Temp: " . $_FILES["file"]["tmp_name"] . "<br />";
+//		echo "Stored in: " . "uploads/" . $rename . "<br />";
+		echo "<img src=uploads/".$rename.">";
+		}
+		?>
 	</div>
 </div>
 </body>
