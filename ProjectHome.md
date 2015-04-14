@@ -1,0 +1,1 @@
+An imageboard written from scratch in PHP with information stored in MySQL.
